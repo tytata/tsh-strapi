@@ -1,0 +1,73 @@
+{
+  "kind": "collectionType",
+  "collectionName": "course_notices",
+  "info": {
+    "singularName": "course-notice",
+    "pluralName": "course-notices",
+    "displayName": "Course Notice"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "uuid": {
+      "type": "uid"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "learningStartDate": {
+      "type": "datetime"
+    },
+    "learningEndDate": {
+      "type": "datetime"
+    },
+    "learningStartTime": {
+      "type": "time"
+    },
+    "learningEndTime": {
+      "type": "time"
+    },
+    "courseType": {
+      "type": "integer"
+    },
+    "courseNumber": {
+      "type": "biginteger"
+    },
+    "DurationLearning": {
+      "type": "integer"
+    },
+    "openingDate": {
+      "type": "datetime"
+    },
+    "openingStartTime": {
+      "type": "datetime"
+    },
+    "openingEndTime": {
+      "type": "time"
+    },
+    "registryDate": {
+      "type": "datetime"
+    },
+    "registryTime": {
+      "type": "time"
+    },
+    "status": {
+      "type": "string"
+    },
+    "zaloContact": {
+      "type": "text"
+    },
+    "isDeleted": {
+      "type": "boolean"
+    },
+    "alert": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}
