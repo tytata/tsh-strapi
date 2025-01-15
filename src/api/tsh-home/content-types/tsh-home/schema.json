@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tsh_homes",
+  "info": {
+    "singularName": "tsh-home",
+    "pluralName": "tsh-homes",
+    "displayName": "tsh_home"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "images": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

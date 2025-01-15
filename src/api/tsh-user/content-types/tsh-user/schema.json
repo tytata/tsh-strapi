@@ -4,7 +4,8 @@
   "info": {
     "singularName": "tsh-user",
     "pluralName": "tsh-users",
-    "displayName": "tsh_user"
+    "displayName": "tsh_user",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -30,11 +31,12 @@
       "type": "password"
     },
     "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "UID": {
       "type": "uid",
@@ -43,7 +45,7 @@
     "city": {
       "type": "string"
     },
-    "national": {
+    "country": {
       "type": "string"
     }
   }

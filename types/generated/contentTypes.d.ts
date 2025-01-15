@@ -534,9 +534,42 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiTshHomeTshHome extends Struct.CollectionTypeSchema {
+  collectionName: 'tsh_homes';
+  info: {
+    displayName: 'tsh_home';
+    pluralName: 'tsh-homes';
+    singularName: 'tsh-home';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    images: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tsh-home.tsh-home'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
   collectionName: 'tsh_users';
   info: {
+    description: '';
     displayName: 'tsh_user';
     pluralName: 'tsh-users';
     singularName: 'tsh-user';
@@ -549,6 +582,7 @@ export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
     avatar: Schema.Attribute.Media<'images'>;
     birthday: Schema.Attribute.Date;
     city: Schema.Attribute.String;
+    country: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -560,7 +594,6 @@ export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
       'api::tsh-user.tsh-user'
     > &
       Schema.Attribute.Private;
-    national: Schema.Attribute.String;
     password: Schema.Attribute.Password;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
@@ -568,6 +601,35 @@ export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTshZoomTshZoom extends Struct.CollectionTypeSchema {
+  collectionName: 'tsh_zooms';
+  info: {
+    displayName: 'tsh_zoom';
+    pluralName: 'tsh-zooms';
+    singularName: 'tsh-zoom';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tsh-zoom.tsh-zoom'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    zoominfo: Schema.Attribute.Text;
   };
 }
 
@@ -1085,7 +1147,9 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
+      'api::tsh-home.tsh-home': ApiTshHomeTshHome;
       'api::tsh-user.tsh-user': ApiTshUserTshUser;
+      'api::tsh-zoom.tsh-zoom': ApiTshZoomTshZoom;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
