@@ -59,3 +59,11 @@ Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/
 ---
 
 <sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+
+## Build with postgres:14
+1. docker pull postgres:14
+
+2. docker run --name postgres-container  -e POSTGRES_PASSWORD=P@ssw0rd  -p 5432:5432  -v C:/pgdata:/var/lib/postgresql/data  -d postgres:14
+
+user/pass: postgres/P@ssw0rd
+

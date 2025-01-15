@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tsh_users",
+  "info": {
+    "singularName": "tsh-user",
+    "pluralName": "tsh-users",
+    "displayName": "tsh_user"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "fullname": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "address": {
+      "type": "text"
+    },
+    "email": {
+      "type": "email"
+    },
+    "birthday": {
+      "type": "date"
+    },
+    "password": {
+      "type": "password"
+    },
+    "avatar": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "UID": {
+      "type": "uid",
+      "targetField": "phone"
+    },
+    "city": {
+      "type": "string"
+    },
+    "national": {
+      "type": "string"
+    }
+  }
+}
