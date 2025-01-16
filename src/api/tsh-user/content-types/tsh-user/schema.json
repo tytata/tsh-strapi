@@ -38,10 +38,6 @@
         "images"
       ]
     },
-    "UID": {
-      "type": "uid",
-      "targetField": "phone"
-    },
     "city": {
       "type": "string"
     },

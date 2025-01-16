@@ -14,6 +14,7 @@
 
 
 import { factories } from '@strapi/strapi';
+import { url } from 'inspector';
 
 // Define the interface for the user data
 interface AvatarFormats {
@@ -100,12 +101,12 @@ export default factories.createCoreController('api::tsh-user.tsh-user', ({ strap
             const sanitizedUser = (await this.sanitizeOutput(user, ctx)) as TSHUser;
 
             // Format the avatar
-            // const avatarFormats = sanitizedUser.avatar?.formats || {};
-            // const avatar = {
-            //     small: avatarFormats.small?.url || null,
-            //     medium: avatarFormats.medium?.url || null,
-            //     thumbnail: avatarFormats.thumbnail?.url || null,
-            // };
+            const avatarFormats = sanitizedUser.avatar?.formats || {};
+            const avatarFormat = {
+                small: avatarFormats.small ? { url: avatarFormats.small.url, ext: avatarFormats.small.ext, name: avatarFormats.small?.name, size: avatarFormats.small.size, width: avatarFormats.small.width, height: avatarFormats.small.height } : null,
+                medium: avatarFormats.medium ? { url: avatarFormats.medium.url, ext: avatarFormats.medium.ext, name: avatarFormats.medium?.name, size: avatarFormats.medium.size, width: avatarFormats.medium.width, height: avatarFormats.medium.height } : null,
+                thumbnail: avatarFormats.thumbnail ? { url: avatarFormats.thumbnail.url, ext: avatarFormats.thumbnail.ext, name: avatarFormats.thumbnail?.name, size: avatarFormats.thumbnail.size, width: avatarFormats.thumbnail.width, height: avatarFormats.thumbnail.height } : null,
+            };
             // Customize the response
             const avatar = sanitizedUser.avatar
                 ? {
@@ -117,7 +118,7 @@ export default factories.createCoreController('api::tsh-user.tsh-user', ({ strap
                     width: sanitizedUser.avatar.width,
                     height: sanitizedUser.avatar.height,
                     url: sanitizedUser.avatar.url,
-                    formats: sanitizedUser.avatar.formats || null,
+                    formats: avatarFormat || null,
                 }
                 : null;
             // Customize the response

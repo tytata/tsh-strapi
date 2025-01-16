@@ -597,7 +597,6 @@ export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
     password: Schema.Attribute.Password;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    UID: Schema.Attribute.UID<'phone'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
