@@ -537,6 +537,7 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
 export interface ApiTshHomeTshHome extends Struct.CollectionTypeSchema {
   collectionName: 'tsh_homes';
   info: {
+    description: '';
     displayName: 'tsh_home';
     pluralName: 'tsh-homes';
     singularName: 'tsh-home';
@@ -548,10 +549,7 @@ export interface ApiTshHomeTshHome extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    images: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    images: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
