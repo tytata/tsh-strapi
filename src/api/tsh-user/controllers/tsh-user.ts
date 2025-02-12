@@ -6,15 +6,8 @@
 
 // export default factories.createCoreController('api::tsh-user.tsh-user');
 
-// export default {
-//     async index(ctx, next) { // called by GET /hello
-//       ctx.body = 'Hello World!'; // we could also send a JSON
-//     },
-//   };
-
 
 import { factories } from '@strapi/strapi';
-import { url } from 'inspector';
 
 // Define the interface for the user data
 interface AvatarFormats {
@@ -164,7 +157,9 @@ export default factories.createCoreController('api::tsh-user.tsh-user', ({ strap
         // some logic here
         const response = await super.create(ctx);
         // some more logic
-        console.log('create::::::');
+        console.log('create::::::'+JSON.stringify(ctx));
+        // check hàm này với vì sao mà password lại không thấy lưu,
+        // cũng check trong db luôn
         return response;
     },
     // PUT

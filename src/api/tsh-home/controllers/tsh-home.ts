@@ -19,7 +19,7 @@ interface imagesFormats {
 interface TSHHome {
     id: string;
     documentId: string;
-    title:string;
+    title: string;
     createdAt: string;
     updatedAt: string;
     publishedAt: string;
@@ -92,7 +92,7 @@ export default factories.createCoreController('api::tsh-home.tsh-home', ({ strap
                 medium: imagesFormats.medium ? { url: imagesFormats.medium.url, ext: imagesFormats.medium.ext, name: imagesFormats.medium?.name, size: imagesFormats.medium.size, width: imagesFormats.medium.width, height: imagesFormats.medium.height } : null,
                 thumbnail: imagesFormats.thumbnail ? { url: imagesFormats.thumbnail.url, ext: imagesFormats.thumbnail.ext, name: imagesFormats.thumbnail?.name, size: imagesFormats.thumbnail.size, width: imagesFormats.thumbnail.width, height: imagesFormats.thumbnail.height } : null,
             };
-            console.log('get:::'+ JSON.stringify(sanitizedHome.images?.formats));
+            // console.log('get:::' + JSON.stringify(sanitizedHome.images?.formats));
             // Customize the response
             const images = sanitizedHome.images
                 ? {
