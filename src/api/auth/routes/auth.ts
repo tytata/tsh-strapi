@@ -1,3 +1,5 @@
+import { jwtCheck } from "../../../middlewares/jwt-check";
+
 export default {
   routes: [
     {
@@ -17,6 +19,14 @@ export default {
       path: "/auth/logout",
       handler: "auth.logout",
       config: { auth: false },
+    },
+    {
+      method: "GET",
+      path: "/protected",
+      handler: "auth.protected",
+      config: {
+        middlewares: [jwtCheck],
+      },
     },
   ],
 };

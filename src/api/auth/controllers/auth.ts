@@ -63,8 +63,14 @@ export default {
                 return ctx.unauthorized("Số điện thoại không tồn tại");
             }
 
+             // Mã hóa mật khẩu
+             const hashedPassword = await bcrypt.hash(password, 10);
+
+            console.log(`password: ${hashedPassword} vs ${user.password}`)
+            
             // Kiểm tra mật khẩu
             const passwordMatch = await bcrypt.compare(password, user.password);
+            
             if (!passwordMatch) {
                 return ctx.unauthorized("Mật khẩu không đúng");
             }
@@ -94,4 +100,7 @@ export default {
     async logout(ctx: Context) {
         return ctx.send({ message: "Đăng xuất thành công" });
     },
+    async protected(ctx: Context) {
+        return ctx.send({ message: "Dữ liệu bảo vệ đã được truy cập!", user: ctx.state.user });
+      },
 };
