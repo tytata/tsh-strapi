@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tsh_meetings",
+  "info": {
+    "singularName": "tsh-meeting",
+    "pluralName": "tsh-meetings",
+    "displayName": "tsh_meeting",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "meeting_link": {
+      "type": "string",
+      "required": true
+    },
+    "meeting_id": {
+      "type": "string"
+    },
+    "meeting_passcode": {
+      "type": "string"
+    },
+    "meeting_desc": {
+      "type": "text"
+    },
+    "meditationtype": {
+      "type": "enumeration",
+      "enum": [
+        "HT",
+        "HT12",
+        "TSH1",
+        "TSH2",
+        "TSH3",
+        "TSH4",
+        "TSH5",
+        "SNT"
+      ]
+    },
+    "active": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "time_start": {
+      "type": "time",
+      "required": true
+    },
+    "time_end": {
+      "type": "time",
+      "required": true
+    },
+    "day": {
+      "type": "enumeration",
+      "enum": [
+        "All",
+        "Thu2",
+        "Thu3",
+        "Thu4",
+        "Thu5",
+        "Thu6",
+        "Thu7",
+        "CN"
+      ],
+      "required": true
+    }
+  }
+}

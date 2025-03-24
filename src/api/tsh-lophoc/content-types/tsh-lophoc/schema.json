@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tsh_lophocs",
+  "info": {
+    "singularName": "tsh-lophoc",
+    "pluralName": "tsh-lophocs",
+    "displayName": "Tsh_lophoc",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "meeting_link": {
+      "type": "text",
+      "required": true
+    },
+    "meeting_id": {
+      "type": "string"
+    },
+    "meeting_passcode": {
+      "type": "string"
+    },
+    "meeting_desc": {
+      "type": "text"
+    },
+    "meditationtype": {
+      "type": "enumeration",
+      "enum": [
+        "TSH1",
+        "TSH2",
+        "TSH3",
+        "TSH4",
+        "TSH5"
+      ]
+    },
+    "active": {
+      "type": "boolean",
+      "required": true
+    },
+    "time_start": {
+      "type": "time",
+      "required": true
+    },
+    "time_end": {
+      "type": "time",
+      "required": true
+    },
+    "date_start": {
+      "type": "date",
+      "required": true
+    },
+    "date_end": {
+      "type": "date",
+      "required": true
+    }
+  }
+}

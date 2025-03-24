@@ -7,7 +7,7 @@ export default [
     config: {
       enabled: true,
       headers: '*', // Cho phép tất cả headers
-      origin: ['http://localhost:3000','http://localhost:1337'], // Cho phép React gọi API
+      origin: '*', // Cho phép React gọi API
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
       credentials: true, // Nếu cần gửi cookie
       exposeHeaders: ['x-api-key'], // Cho phép header này từ response

@@ -564,6 +564,92 @@ export interface ApiTshHomeTshHome extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiTshLophocTshLophoc extends Struct.CollectionTypeSchema {
+  collectionName: 'tsh_lophocs';
+  info: {
+    description: '';
+    displayName: 'Tsh_lophoc';
+    pluralName: 'tsh-lophocs';
+    singularName: 'tsh-lophoc';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    active: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date_end: Schema.Attribute.Date & Schema.Attribute.Required;
+    date_start: Schema.Attribute.Date & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tsh-lophoc.tsh-lophoc'
+    > &
+      Schema.Attribute.Private;
+    meditationtype: Schema.Attribute.Enumeration<
+      ['TSH1', 'TSH2', 'TSH3', 'TSH4', 'TSH5']
+    >;
+    meeting_desc: Schema.Attribute.Text;
+    meeting_id: Schema.Attribute.String;
+    meeting_link: Schema.Attribute.Text & Schema.Attribute.Required;
+    meeting_passcode: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    time_end: Schema.Attribute.Time & Schema.Attribute.Required;
+    time_start: Schema.Attribute.Time & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTshMeetingTshMeeting extends Struct.CollectionTypeSchema {
+  collectionName: 'tsh_meetings';
+  info: {
+    description: '';
+    displayName: 'tsh_meeting';
+    pluralName: 'tsh-meetings';
+    singularName: 'tsh-meeting';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    active: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    day: Schema.Attribute.Enumeration<
+      ['All', 'Thu2', 'Thu3', 'Thu4', 'Thu5', 'Thu6', 'Thu7', 'CN']
+    > &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tsh-meeting.tsh-meeting'
+    > &
+      Schema.Attribute.Private;
+    meditationtype: Schema.Attribute.Enumeration<
+      ['HT', 'HT12', 'TSH1', 'TSH2', 'TSH3', 'TSH4', 'TSH5', 'SNT']
+    >;
+    meeting_desc: Schema.Attribute.Text;
+    meeting_id: Schema.Attribute.String;
+    meeting_link: Schema.Attribute.String & Schema.Attribute.Required;
+    meeting_passcode: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    time_end: Schema.Attribute.Time & Schema.Attribute.Required;
+    time_start: Schema.Attribute.Time & Schema.Attribute.Required;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
   collectionName: 'tsh_users';
   info: {
@@ -598,35 +684,6 @@ export interface ApiTshUserTshUser extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiTshZoomTshZoom extends Struct.CollectionTypeSchema {
-  collectionName: 'tsh_zooms';
-  info: {
-    displayName: 'tsh_zoom';
-    pluralName: 'tsh-zooms';
-    singularName: 'tsh-zoom';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::tsh-zoom.tsh-zoom'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    zoominfo: Schema.Attribute.Text;
   };
 }
 
@@ -1150,8 +1207,9 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
       'api::tsh-home.tsh-home': ApiTshHomeTshHome;
+      'api::tsh-lophoc.tsh-lophoc': ApiTshLophocTshLophoc;
+      'api::tsh-meeting.tsh-meeting': ApiTshMeetingTshMeeting;
       'api::tsh-user.tsh-user': ApiTshUserTshUser;
-      'api::tsh-zoom.tsh-zoom': ApiTshZoomTshZoom;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
