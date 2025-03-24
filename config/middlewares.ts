@@ -6,12 +6,12 @@ export default [
     name: 'strapi::cors',
     config: {
       enabled: true,
+      origin: '*', // Chấp nhận tất cả domain
       headers: '*', // Cho phép tất cả headers
-      origin: ['*'], // Hoặc '*' nếu muốn mở rộng cho tất cả
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      credentials: true, // Nếu cần gửi cookie hoặc thông tin xác thực
-      exposeHeaders: ['x-api-key'], // Cho phép header này từ response
-      allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Cho phép sử dụng các headers này
+      credentials: true, // Hỗ trợ gửi cookie & xác thực
+      exposeHeaders: ['x-api-key'], // Header có thể đọc từ response
+      allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Headers cho phép từ request
     }
   },
   'strapi::poweredBy',
