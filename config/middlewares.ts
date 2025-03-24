@@ -8,10 +8,10 @@ export default [
       enabled: true,
       headers: '*', // Cho phép tất cả headers
       origin: '*', // Cho phép React gọi API
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-      credentials: true, // Nếu cần gửi cookie
-      exposeHeaders: ['x-api-key'], // Cho phép header này từ response
-      allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Cho phép dùng 'x-api-key'
+      // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      // credentials: true, // Nếu cần gửi cookie
+      // exposeHeaders: ['x-api-key'], // Cho phép header này từ response
+      // allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'], // Cho phép dùng 'x-api-key'
     }
   },
   'strapi::poweredBy',
