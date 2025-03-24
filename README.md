@@ -68,3 +68,5 @@ Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/
 user/pass: postgres/P@ssw0rd
 
 hoctruongsinhhoc@gmail.com/P@ssw0rd
+
+   // "start": "strapi start",
