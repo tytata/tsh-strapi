@@ -4,11 +4,11 @@
   "private": true,
   "description": "A Strapi application",
   "scripts": {
-    "build": "tsc && strapi build",
+    "build": "strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
     "seed:example": "node ./scripts/seed.js",
-    "start": "node dist/server.js",
+    "start": "strapi start",
     "strapi": "strapi"
   },
   "dependencies": {
