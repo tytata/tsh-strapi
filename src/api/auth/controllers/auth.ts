@@ -104,6 +104,12 @@ export default {
         }
     },
 
+    async logout(ctx: Context) {
+        return ctx.send({ message: "Đăng xuất thành công" });
+    },
+    async protected(ctx: Context) {
+        return ctx.send({ message: "Dữ liệu bảo vệ đã được truy cập!", user: ctx.state.user });
+    },
 };
 
 // export default {
