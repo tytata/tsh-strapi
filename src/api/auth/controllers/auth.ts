@@ -22,7 +22,8 @@ export default {
 
             // Mã hóa mật khẩu
             const hashedPassword = await bcrypt.hash(password, 10);
-
+            console.log(`password: ${password}`);
+            console.log(`password hashed:${hashedPassword}`);
             // Tạo người dùng mới
             const newUser = await strapi.entityService.create("plugin::users-permissions.user", {
                 data: {
@@ -66,11 +67,11 @@ export default {
             // Kiểm tra mật khẩu
             const passwordMatch = await bcrypt.compare(password, user.password);
             console.log(`passwordMatch: ${passwordMatch}`);
-            console.log(`password input:${password},\n password in db:${user.password}`);
+            console.log(`password input:${password}\n password in db:${user.password}`);
             // Mã hóa mật khẩu
             const hashedPassword = await bcrypt.hash(password, 10);
             console.log(`password hashed: ${hashedPassword}`);
-            
+
             if (!passwordMatch) {
                 return ctx.unauthorized("Mật khẩu không đúng");
             }
