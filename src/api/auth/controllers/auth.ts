@@ -70,12 +70,23 @@ export default {
             if (!passwordMatch) {
                 return ctx.unauthorized("Mật khẩu không đúng");
             }
+            //   Kiểm tra `JWT_SECRET`
+            const jwtSecret = process.env.JWT_SECRET || strapi.config.get("plugin.users-permissions.jwtSecret");
+            if (!jwtSecret) {
+                return ctx.internalServerError("Thiếu JWT_SECRET");
+            }
 
             // Tạo token JWT
-            const token = strapi.plugins["users-permissions"].services.jwt.issue({
-                id: user.id,
-                phoneNumber: user.phoneNumber,
-            });
+            const token = jwt.sign(
+                { id: user.id, phoneNumber: user.phoneNumber },
+                jwtSecret,
+                { expiresIn: "7d" }
+            );
+            // // Tạo token JWT
+            // const token = strapi.plugins["users-permissions"].services.jwt.issue({
+            //     id: user.id,
+            //     phoneNumber: user.phoneNumber,
+            // });
 
             return ctx.send({
                 message: "Đăng nhập thành công",
@@ -88,6 +99,7 @@ export default {
                 },
             });
         } catch (error) {
+            console.error("Lỗi đăng nhập:", error);
             return ctx.internalServerError("Lỗi đăng nhập: " + error.message);
         }
     },
