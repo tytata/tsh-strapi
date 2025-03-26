@@ -11,7 +11,7 @@ export default {
             }
 
             // Kiểm tra xem số điện thoại đã tồn tại chưa
-            const existingUser = await ctx.strapi.db.query("plugin::users-permissions.user").findOne({
+            const existingUser = await strapi.db.query("plugin::users-permissions.user").findOne({
                 where: { phoneNumber },
             });
 
@@ -26,7 +26,7 @@ export default {
             console.log(`password hashed:${hashedPassword}`);
             console.log(`PhoneNumber hashed:${hashedPhoneNumber}`);
             // Tạo người dùng mới
-            const newUser = await ctx.strapi.entityService.create("plugin::users-permissions.user", {
+            const newUser = await strapi.entityService.create("plugin::users-permissions.user", {
                 data: {
                     fullName,
                     phoneNumber,
@@ -58,7 +58,7 @@ export default {
             }
 
             // Kiểm tra user có tồn tại không
-            const user = await ctx.strapi.db.query("plugin::users-permissions.user").findOne({
+            const user = await strapi.db.query("plugin::users-permissions.user").findOne({
                 where: { phoneNumber },
             });
 
@@ -79,7 +79,7 @@ export default {
             }
 
             // Kiểm tra `JWT_SECRET`
-            const jwtSecret = process.env.JWT_SECRET || ctx.strapi.config.get("plugin.users-permissions.jwtSecret");
+            const jwtSecret = process.env.JWT_SECRET || strapi.config.get("plugin.users-permissions.jwtSecret");
             if (!jwtSecret) {
                 return ctx.internalServerError("Thiếu JWT_SECRET");
             }
@@ -115,18 +115,19 @@ export default {
         return ctx.send({ message: "Dữ liệu bảo vệ đã được truy cập!", user: ctx.state.user });
     },
     
-    async updateProfile(ctx) {
+    async updateProfile(ctx:Context) {
         try {
-            const userId = ctx.state.user?.id; // Lấy userId từ token JWT
-            if (!userId) {
+            const phoneNumber = ctx.state.user?.phoneNumber; // Lấy phoneNumber từ token JWT
+            console.log(`Lấy phoneNumber từ token JWT: ${ctx.state.user?.phoneNumber}`);
+            if (!phoneNumber) {
                 return ctx.unauthorized("Bạn cần đăng nhập để thực hiện hành động này.");
             }
     
             const { fullName, email, address, provinceCity, country, password, newPassword } = ctx.request.body;
     
             // Lấy thông tin user từ database
-            const user = await ctx.strapi.db.query("plugin::users-permissions.user").findOne({
-                where: { id: userId },
+            const user = await strapi.db.query("plugin::users-permissions.user").findOne({
+                where: { phoneNumber }
             });
     
             if (!user) {
@@ -148,7 +149,7 @@ export default {
             const updatedPassword = newPassword ? await bcrypt.hash(newPassword, 10) : user.password;
     
             // Cập nhật thông tin user (KHÔNG thay đổi `password_restore`)
-            const updatedUser = await ctx.strapi.entityService.update("plugin::users-permissions.user", userId, {
+            const updatedUser = await strapi.entityService.update("plugin::users-permissions.user", phoneNumber, {
                 data: {
                     fullName: fullName || user.fullName,
                     email: email || user.email,
