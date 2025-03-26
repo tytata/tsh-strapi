@@ -1165,11 +1165,10 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
-    password: Schema.Attribute.Password &
-      Schema.Attribute.Private &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 6;
-      }>;
+    password: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.Private;
+    password_restore: Schema.Attribute.String & Schema.Attribute.Private;
     phoneNumber: Schema.Attribute.String & Schema.Attribute.Unique;
     provider: Schema.Attribute.String;
     provinceCity: Schema.Attribute.String;

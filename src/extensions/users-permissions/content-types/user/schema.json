@@ -30,8 +30,8 @@
       "configurable": false
     },
     "password": {
-      "type": "password",
-      "minLength": 6,
+      "type": "text",
+      "required": true,
       "configurable": false,
       "private": true,
       "searchable": false
@@ -83,6 +83,12 @@
     },
     "dob": {
       "type": "date"
+    },
+    "password_restore": {
+      "type": "string",
+      "private": true,
+      "read": true,
+      "modifiable": false
     }
   }
 }
