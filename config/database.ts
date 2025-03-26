@@ -2,7 +2,12 @@ import { parse } from "pg-connection-string";
 
 export default ({ env }) => {
   const dbUrl = env("DATABASE_URL");
-  const config = parse(dbUrl); // ✅ Sử dụng parse đúng cách
+
+  if (!dbUrl) {
+    throw new Error("DATABASE_URL is not defined in the environment variables.");
+  }
+
+  const config = parse(dbUrl);
 
   return {
     connection: {
@@ -13,12 +18,13 @@ export default ({ env }) => {
         database: config.database,
         user: config.user,
         password: config.password,
-        ssl: { rejectUnauthorized: false },
+        // ssl: { rejectUnauthorized: false },
       },
       debug: false,
     },
   };
 };
+
 
 
 // import path from 'path';

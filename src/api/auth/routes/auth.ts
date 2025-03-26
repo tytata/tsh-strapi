@@ -28,5 +28,14 @@ export default {
         middlewares: [jwtCheck],
       },
     },
+    {
+      method: "PUT",
+      path: "/auth/update-profile",
+      handler: "auth.updateProfile",
+      config: {
+        auth: false, // Nếu muốn bắt buộc đăng nhập thì đặt `auth: true`
+      },
+    },
+    
   ],
 };
