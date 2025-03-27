@@ -36,6 +36,14 @@ export default {
         auth: false, // Nếu muốn bắt buộc đăng nhập thì đặt `auth: true`
       },
     },
-    
+    {
+      method: "GET",
+      path: "/auth/info",
+      handler: "auth.getUserInfo",
+      config: {
+        auth: false, // Nếu yêu cầu xác thực, đổi thành `auth: true`
+        policies: [],
+      },
+    },
   ],
 };
