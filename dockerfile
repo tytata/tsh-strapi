@@ -2,7 +2,7 @@
 FROM node:20-alpine as build
 
 # Cài đặt esbuild đúng nền tảng
-RUN yarn add esbuild-linux-64 --dev --ignore-engines
+# RUN yarn remove esbuild && yarn add esbuild --ignore-engines
 
 # Cài đặt các thư viện cần thiết
 RUN apk update && apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev vips-dev git > /dev/null 2>&1

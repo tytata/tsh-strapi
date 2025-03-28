@@ -2,16 +2,21 @@ version: "3.8"
 
 services:
   strapi:
-    build: .
+    build:
+      context: .  # 🔥 Đảm bảo build đúng thư mục hiện tại
     container_name: strapi
     restart: unless-stopped
     env_file: .env
+    environment:
+      NODE_ENV: production  # 🔥 Đảm bảo chạy đúng mode production
     ports:
       - "1337:1337"
     depends_on:
       - postgres
     volumes:
-      - ./public/uploads:/app/public/uploads
+      - ./public/uploads:/opt/app/public/uploads  # 🔥 Chỉnh path chính xác
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # 🔥 Fix lỗi kết nối trên Windows
 
   postgres:
     image: postgres:15-alpine
@@ -21,6 +26,7 @@ services:
       POSTGRES_USER: strapi
       POSTGRES_PASSWORD: P@ssw0rd
       POSTGRES_DB: tsh
+      POSTGRES_HOST_AUTH_METHOD: trust  # 🔥 Giúp dev nhanh hơn mà không cần nhập password mỗi lần khởi động
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
