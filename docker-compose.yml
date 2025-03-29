@@ -24,5 +24,32 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    depends_on:
+      - strapi
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    networks:
+      - tsh-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot --email httra1010@gmail.com --agree-tos --no-eff-email --staging -d hoctruongsinhoc.ddns.net
+
+networks:
+  tsh-network:
+
 volumes:
   postgres_data:
