@@ -21,6 +21,7 @@ WORKDIR /opt/app
 COPY . .
 
 # Build Strapi
+RUN yarn add esbuild@0.21.3 --dev
 RUN yarn build
 
 # Creating final production image

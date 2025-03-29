@@ -18,7 +18,7 @@ services:
     container_name: postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: strapi
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: P@ssw0rd
       POSTGRES_DB: tsh
     volumes:
