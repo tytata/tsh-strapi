@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  strapi:
+    build: .
+    container_name: strapi
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "1337:1337"
+    depends_on:
+      - postgres
+    volumes:
+      - ./public/uploads:/app/public/uploads
+    networks:
+      - tsh-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@ssw0rd
+      POSTGRES_DB: tsh
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tsh-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: unless-stopped
+    depends_on:
+      - strapi
+    ports:
+    - "80:80"      # cổng HTTP chuẩn
+    - "443:443"    # cổng HTTPS chuẩn
+    volumes:
+      - D:/certbot/conf/ssl:/etc/letsencrypt
+      - D:/certbot/conf/www:/var/www/certbot
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - D:/certbot/conf:/etc/letsencrypt:ro
+    networks:
+      - tsh-network
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    depends_on:
+      - nginx
+    volumes:
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done'"
+    networks:
+      - tsh-network
+
+networks:
+  tsh-network:
+
+volumes:
+  postgres_data:

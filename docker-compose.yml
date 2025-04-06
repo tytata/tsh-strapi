@@ -27,35 +27,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - tsh-network
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    restart: unless-stopped
-    depends_on:
-      - strapi
-    ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/letsencrypt
-      - ./nginx/www:/var/www/certbot
-    networks:
-      - tsh-network
-
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    depends_on:
-      - nginx
-    volumes:
-      - ./nginx/ssl:/etc/letsencrypt
-      - ./nginx/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot --quiet; sleep 12h & wait $${!}; done'"
-    networks:
-      - tsh-network
-
 networks:
   tsh-network:
 
