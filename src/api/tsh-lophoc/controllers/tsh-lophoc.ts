@@ -118,7 +118,6 @@
 //   }),
 // );
 
-
 // ./src/api/tsh-lophoc/controllers/tsh-lophoc.ts
 
 // import { factories } from "@strapi/strapi";
@@ -151,18 +150,49 @@
 //   })
 // );
 
+// ./src/api/tsh-lophoc/controllers/tsh-lophoc.ts
+// import { Context } from "koa";
+// import { factories } from "@strapi/strapi";
+// import checkAuthMiddleware from "../../../middlewares/check-auth"; // Đảm bảo đường dẫn đúng
+
+// export default factories.createCoreController(
+//   "api::tsh-lophoc.tsh-lophoc",
+//   ({ strapi }) => ({
+//     async find(ctx) {
+//       // Áp dụng middleware kiểm tra API key và JWT token
+//       await checkAuthMiddleware(ctx, async () => {}); // Cần gọi next() đúng cách
+
+//       // Logic tìm kiếm dữ liệu
+//       const { active, meditationtype } = ctx.query;
+//       if (active !== undefined) {
+//         if (!ctx.query.filters || typeof ctx.query.filters !== "object") {
+//           ctx.query.filters = {};
+//         }
+//         (ctx.query.filters as { active?: boolean }).active = active === "true";
+//       }
+
+//       if (ctx.query.filters && typeof meditationtype === "string") {
+//         (ctx.query.filters as { meditationtype?: string }).meditationtype = meditationtype;
+//       }
+
+//       const { data } = await super.find(ctx);
+
+//       return data[data.length - 1]; // Trả về item cuối cùng
+//     },
+//   })
+// );
 
 // ./src/api/tsh-lophoc/controllers/tsh-lophoc.ts
 
 import { factories } from "@strapi/strapi";
-import checkAuthMiddleware from "../../../middlewares/check-auth"; // Đảm bảo đường dẫn đúng
+import checkApiKeyMiddleware from "../../../middlewares/check-api-key"; // Đường dẫn đến middleware
 
 export default factories.createCoreController(
   "api::tsh-lophoc.tsh-lophoc",
   ({ strapi }) => ({
     async find(ctx) {
-      // Áp dụng middleware kiểm tra API key và JWT token
-      await checkAuthMiddleware(ctx, async () => {}); // Cần gọi next() đúng cách
+      // Áp dụng middleware kiểm tra API key
+      await checkApiKeyMiddleware(ctx, async () => {}); // ✅
 
       // Logic tìm kiếm dữ liệu
       const { active, meditationtype } = ctx.query;
@@ -174,12 +204,13 @@ export default factories.createCoreController(
       }
 
       if (ctx.query.filters && typeof meditationtype === "string") {
-        (ctx.query.filters as { meditationtype?: string }).meditationtype = meditationtype;
+        (ctx.query.filters as { meditationtype?: string }).meditationtype =
+          meditationtype;
       }
 
       const { data } = await super.find(ctx);
 
       return data[data.length - 1]; // Trả về item cuối cùng
     },
-  })
+  }),
 );

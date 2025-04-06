@@ -45,19 +45,54 @@
 //     }
 
 // }));
+// import { Context } from "koa";
+// import { factories } from "@strapi/strapi";
+// import checkAuthMiddleware from "../../../middlewares/check-auth"; // Đảm bảo đường dẫn đúng
 
+// export default factories.createCoreController(
+//   "api::tsh-meeting.tsh-meeting",
+//   ({ strapi }) => ({
+//     async find(ctx: Context) {
+//       // Áp dụng middleware kiểm tra API key và JWT token
+//       await checkAuthMiddleware(ctx, async () => {}); // Cần gọi next() đúng cách
+
+//       // Logic tìm kiếm dữ liệu
+//       const { active, meditationtype } = ctx.query;
+//       if (active !== undefined) {
+//         if (!ctx.query.filters || typeof ctx.query.filters !== "object") {
+//           ctx.query.filters = {};
+//         }
+//         (ctx.query.filters as { active?: boolean }).active = active === "true";
+//       }
+
+//       if (ctx.query.filters && typeof meditationtype === "string") {
+//         (ctx.query.filters as { meditationtype?: string }).meditationtype =
+//           meditationtype;
+//       }
+
+//       const { data } = await super.find(ctx);
+
+//       return data[data.length - 1]; // Trả về item cuối cùng
+//     },
+//   }),
+// );
+
+// ./src/api/tsh-meeting/controllers/tsh-meeting.ts
+import { Context } from "koa";
 import { factories } from "@strapi/strapi";
-import checkAuthMiddleware from "../../../middlewares/check-auth"; // Đảm bảo đường dẫn đúng
+import checkApiKeyMiddleware from "../../../middlewares/check-api-key"; // Đường dẫn đến middleware
 
 export default factories.createCoreController(
   "api::tsh-meeting.tsh-meeting",
   ({ strapi }) => ({
-    async find(ctx) {
-      // Áp dụng middleware kiểm tra API key và JWT token
-      await checkAuthMiddleware(ctx, async () => {}); // Cần gọi next() đúng cách
+    async find(ctx :Context ) {
+      // Áp dụng middleware kiểm tra API key
+
+      await checkApiKeyMiddleware(ctx, async () => {}); // ✅
 
       // Logic tìm kiếm dữ liệu
       const { active, meditationtype } = ctx.query;
+      console.log(`erssd:-- `, active, meditationtype);
       if (active !== undefined) {
         if (!ctx.query.filters || typeof ctx.query.filters !== "object") {
           ctx.query.filters = {};
@@ -71,7 +106,9 @@ export default factories.createCoreController(
       }
 
       const { data } = await super.find(ctx);
-
+      console.log(`erssdât: `, data);
+      
+      console.log(`erssdât: `, data[data.length - 1]);
       return data[data.length - 1]; // Trả về item cuối cùng
     },
   }),

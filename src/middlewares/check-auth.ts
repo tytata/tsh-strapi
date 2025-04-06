@@ -5,20 +5,23 @@ const checkAuthMiddleware = async (ctx: Context, next: Next) => {
   // Lấy API key từ header
   const expectedApiKey = process.env.API_KEY;
   const apiKey = ctx.request.header["x-api-key"];
-
+//   console.log(`dfa `,apiKey,expectedApiKey);
   // Kiểm tra API key
   if (!apiKey || apiKey !== expectedApiKey) {
     return ctx.unauthorized("Invalid or missing API key");
   }
-
+  console.log(`dfa`);
   // Kiểm tra JWT token
   const authHeader = ctx.headers.authorization;
+  console.log(`authHeader `,authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return ctx.unauthorized("Thiếu token");
   }
 
   const token = authHeader.split(" ")[1];
-  const jwtSecret = process.env.JWT_SECRET || ctx.strapi.config.get("plugin.users-permissions.jwtSecret");
+  const jwtSecret =
+    process.env.JWT_SECRET ||
+    ctx.strapi.config.get("plugin.users-permissions.jwtSecret");
 
   if (!jwtSecret) {
     return ctx.internalServerError("Thiếu JWT_SECRET");

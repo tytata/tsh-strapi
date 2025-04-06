@@ -8,7 +8,7 @@
 
 import { factories } from '@strapi/strapi';
 import { url } from 'inspector';
-
+import { Context } from "koa";
 // Define the interface for the home data
 interface imagesFormats {
     small?: { url: string, ext: string, name: string, size: number, width: number, height: number };

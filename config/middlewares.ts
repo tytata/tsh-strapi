@@ -13,7 +13,7 @@ export default [
       origin: "*", // Chấp nhận tất cả domain
       headers: "*", // Cho phép tất cả headers
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      credentials: true, // Hỗ trợ gửi cookie & xác thực
+      credentials: false, // Hỗ trợ gửi cookie & xác thực
       exposeHeaders: ["x-api-key"], // Header có thể đọc từ response
       allowedHeaders: ["Content-Type", "Authorization", "x-api-key"], // Headers cho phép từ request
     },
