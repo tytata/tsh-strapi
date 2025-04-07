@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   strapi:
-    build: .
+    #build: .
+    image: tytata/tsh-strapi
     container_name: strapi
     restart: unless-stopped
     env_file: .env
@@ -16,7 +17,6 @@ services:
       - tsh-network
 
   postgres:
-    # image: postgres:15-alpine
     image: tytata/tsh-strapi-postgres
     container_name: postgres
     restart: unless-stopped

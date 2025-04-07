@@ -70,3 +70,13 @@ user/pass: postgres/P@ssw0rd
 hoctruongsinhhoc@gmail.com/P@ssw0rd
 
    // "start": "strapi start",
+
+
+
+
+   ### deploy by docker:
+   # 1. Copy file docker-compose-deploy.yml.dp and rename to docker-compose.yml to destination PC deploy
+   # 2. Copy file .env to destination PC deploy
+   # 3. run command lines:
+      - docker-compose pull: to pull images to docker on PC destination
+      - docker-compose up: to build docker image to container on PC destination.

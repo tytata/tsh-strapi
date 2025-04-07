@@ -1,7 +1,5 @@
 // ./src/config/middleware.ts
 
-// import checkAuthMiddleware from "../src/middlewares/check-auth"; // Đường dẫn đến middleware
-
 export default [
   "strapi::logger",
   "strapi::errors",
@@ -24,11 +22,4 @@ export default [
   "strapi::session",
   "strapi::favicon",
   "strapi::public",
-  // // Thêm middleware tùy chỉnh của bạn vào đây
-  // {
-  //   name: "check-auth", // Tên middleware
-  //   config: {
-  //     enabled: true, // Bật middleware
-  //   },
-  // },
 ];

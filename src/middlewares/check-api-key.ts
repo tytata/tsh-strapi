@@ -6,7 +6,7 @@ const checkApiKeyMiddleware = async (ctx: Context, next: Next) => {
   const expectedApiKey = process.env.API_KEY;
 
   const apiKey = ctx.request.header["x-api-key"];
-console.log(`sadf`);
+  console.log(`sadf`);
   if (!apiKey || apiKey !== expectedApiKey) {
     return ctx.unauthorized("Invalid or missing API key");
   }
