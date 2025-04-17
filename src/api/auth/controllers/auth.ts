@@ -234,6 +234,7 @@ export default {
       );
     }
   },
+
   async getUserInfo(ctx: Context) {
     try {
       const authHeader = ctx.headers.authorization;
@@ -255,9 +256,9 @@ export default {
         return ctx.unauthorized("Token không hợp lệ");
       }
 
-      console.log("Decoded JWT:", decoded);
+      // console.log("Decoded JWT:", decoded);
       const phoneNumber = decoded.phoneNumber as string;
-      console.log("Decoded JWT phoneNumber:", decoded.phoneNumber);
+      // console.log("Decoded JWT phoneNumber:", decoded.phoneNumber);
 
       if (!phoneNumber) {
         return ctx.unauthorized(
@@ -265,15 +266,15 @@ export default {
         );
       }
 
-      const {
-        fullName,
-        email,
-        address,
-        provinceCity,
-        country,
-        password,
-        newPassword,
-      } = ctx.request.body;
+      // const {
+      //   fullName,
+      //   email,
+      //   address,
+      //   provinceCity,
+      //   country,
+      //   password,
+      //   newPassword,
+      // } = ctx.request.body;
 
       // Lấy thông tin user từ database
       const user = await strapi.db
@@ -285,12 +286,23 @@ export default {
       if (!user) {
         return ctx.notFound("User không tồn tại");
       }
-
+      type CustomUser = {
+        id: number;
+        username?: string;
+        email?: string;
+        fullName?: string;
+        address?: string;
+        provinceCity?: string;
+        country?: string;
+        role?: {
+          name: string;
+        };
+      };
       // Lấy thông tin user từ database (loại bỏ các field nhạy cảm)
-      const userInfo = await strapi.entityService.findOne(
+      const [userInfo] = await strapi.entityService.findMany(
         "plugin::users-permissions.user",
-        user.id,
         {
+          where: { id: user.id },
           fields: [
             "id",
             "username",
@@ -300,10 +312,24 @@ export default {
             "provinceCity",
             "country",
           ],
+          populate: {
+            role: {
+              fields: ['name'],
+            },
+          }
         },
-      );
+      ) as CustomUser[];
+      console.log(`userinfo: ${JSON.stringify(userInfo)}`)
+      if (!userInfo) {
+        return ctx.notFound("User không tồn tại");
+      }
 
-      return ctx.send(userInfo);
+      const customUser = {
+        ...userInfo,
+        role: userInfo.role?.name?.toLowerCase() || null,
+      };
+
+      return ctx.send(customUser);
     } catch (error) {
       return ctx.badRequest(`Lỗi lấy thông tin người dùng! ${error}`);
     }

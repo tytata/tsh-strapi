@@ -1,0 +1,11 @@
+# dành cho dev
+
+version: "3.8"
+
+services:
+  strapi:
+    command: yarn develop
+    volumes:
+      - .:/app
+      - ./public/uploads:/app/public/uploads
+      - /app/node_modules

@@ -4,7 +4,7 @@ import { Context, Next } from "koa";
 
 const checkApiKeyMiddleware = async (ctx: Context, next: Next) => {
   const expectedApiKey = process.env.API_KEY;
-
+  console.log(`checkApiKeyMiddleware`);
   const apiKey = ctx.request.header["x-api-key"];
   console.log(`sadf`);
   if (!apiKey || apiKey !== expectedApiKey) {
