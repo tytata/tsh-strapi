@@ -59,6 +59,13 @@
       "configurable": false
     },
     "role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.role",
+      "inversedBy": "users",
+      "configurable": false
+    },
+    "roleName": {
       "type": "enumeration",
       "enum": ["user", "admin"]
     },

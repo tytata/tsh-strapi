@@ -73,7 +73,7 @@ export default {
         country,
         email,
         dob,
-        role, // Lấy thêm thông tin role từ request
+        roleName, // Lấy thêm thông tin role từ request
       } = ctx.request.body;
 
       if (!phoneNumber || !password) {
@@ -96,7 +96,7 @@ export default {
       const hashedPhoneNumber = await bcrypt.hash(phoneNumber, 10);
 
       // Gán role mặc định là "user" nếu không có role
-      const userRole = role || "user"; // Thêm điều kiện gán role mặc định
+      const userRole = roleName || "user"; // Thêm điều kiện gán role mặc định
 
       // Tạo người dùng mới
       const newUser = await strapi
@@ -115,7 +115,7 @@ export default {
           username: phoneNumber,
           confirmed: true,
           provider: "local",
-          role: userRole, // Thêm role vào dữ liệu người dùng
+          roleName: userRole, // Thêm role vào dữ liệu người dùng
         });
 
       return ctx.created({ message: "Đăng ký thành công", user: newUser });
@@ -234,7 +234,7 @@ export default {
           fullName: user.fullName,
           phoneNumber: user.phoneNumber,
           email: user.email,
-          role: user.role, // Trả về role của người dùng
+          roleName: user.roleName, // Trả về role của người dùng
         },
       });
     } catch (error) {
@@ -396,7 +396,7 @@ export default {
         fullName: user.fullName,
         phoneNumber: user.phoneNumber,
         email: user.email,
-        role: user.role, // Lấy tên role
+        roleName: user.roleName, // Lấy tên role
       });
     } catch (error) {
       return ctx.internalServerError("Lỗi lấy thông tin người dùng: " + error);
