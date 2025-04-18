@@ -32,10 +32,6 @@
       "type": "enumeration",
       "enum": [
         "HT",
-        "TSH1",
-        "TSH2",
-        "TSH3",
-        "TSH4",
         "TSH5",
         "SNT"
       ]
