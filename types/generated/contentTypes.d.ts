@@ -633,9 +633,7 @@ export interface ApiTshMeetingTshMeeting extends Struct.CollectionTypeSchema {
       'api::tsh-meeting.tsh-meeting'
     > &
       Schema.Attribute.Private;
-    meditationtype: Schema.Attribute.Enumeration<
-      ['HT', 'TSH5', 'SNT']
-    >;
+    meditationtype: Schema.Attribute.Enumeration<['HT', 'TSH5', 'SNT']>;
     meeting_desc: Schema.Attribute.Text;
     meeting_id: Schema.Attribute.String;
     meeting_link: Schema.Attribute.String & Schema.Attribute.Required;
