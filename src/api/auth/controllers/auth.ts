@@ -221,21 +221,29 @@ export default {
       }
 
       // Tạo token JWT
-      const token = jwt.sign({ phoneNumber: user.phoneNumber }, jwtSecret, {
-        expiresIn: "7d",
-      });
+      const token = jwt.sign(
+        {
+          phoneNumber: user.phoneNumber,
+          fullName: user.fullName,
+          roleName: user.roleName,
+        },
+        jwtSecret,
+        {
+          expiresIn: "7d",
+        },
+      );
 
       // Trả về dữ liệu người dùng và token
       return ctx.send({
         message: "Đăng nhập thành công",
         jwt: token,
-        user: {
-          id: user.id,
-          fullName: user.fullName,
-          phoneNumber: user.phoneNumber,
-          email: user.email,
-          roleName: user.roleName, // Trả về role của người dùng
-        },
+        // user: {
+        //   id: user.id,
+        //   fullName: user.fullName,
+        //   phoneNumber: user.phoneNumber,
+        //   email: user.email,
+        //   roleName: user.roleName, // Trả về role của người dùng
+        // },
       });
     } catch (error) {
       return ctx.internalServerError(`Lỗi đăng nhập: ${error.message}`);
