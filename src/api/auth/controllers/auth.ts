@@ -260,107 +260,98 @@ export default {
     });
   },
 
-  async updateProfile(ctx: Context) {
-    try {
-      const authHeader = ctx.headers.authorization;
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return ctx.unauthorized("Thiếu token");
+async updateProfile(ctx: Context) {
+  try {
+    const authHeader = ctx.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return ctx.unauthorized("Thiếu token");
+    }
+
+    const token = authHeader.split(" ")[1];
+    const jwtSecret =
+      process.env.JWT_SECRET ||
+      strapi.config.get("plugin.users-permissions.jwtSecret");
+    if (!jwtSecret) {
+      return ctx.internalServerError("Thiếu JWT_SECRET");
+    }
+
+    const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
+    const phoneNumber = decoded?.phoneNumber;
+
+    if (!phoneNumber) {
+      return ctx.unauthorized("Token không hợp lệ");
+    }
+
+    const {
+      fullName,
+      email,
+      address,
+      provinceCity,
+      country,
+      password,
+      newPassword,
+      newDob, // 👈 lấy thêm ngày sinh mới
+    } = ctx.request.body;
+
+    const user = await strapi.db
+      .query("plugin::users-permissions.user")
+      .findOne({
+        where: { phoneNumber },
+      });
+
+    if (!user) {
+      return ctx.notFound("User không tồn tại");
+    }
+
+    if (newPassword) {
+      if (!password) {
+        return ctx.badRequest("Cần nhập mật khẩu hiện tại để thay đổi mật khẩu");
       }
-      const token = authHeader.split(" ")[1];
-      const jwtSecret =
-        process.env.JWT_SECRET ||
-        strapi.config.get("plugin.users-permissions.jwtSecret");
-      if (!jwtSecret) {
-        return ctx.internalServerError("Thiếu JWT_SECRET");
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return ctx.unauthorized("Mật khẩu hiện tại không đúng");
       }
-      // Giải mã JWT để lấy số điện thoại của user
-      const decoded = jwt.verify(token, jwtSecret) as JwtPayload;
-      if (!decoded || typeof decoded !== "object" || !decoded.phoneNumber) {
-        return ctx.unauthorized("Token không hợp lệ");
-      }
+    }
 
-      console.log("Decoded JWT:", decoded);
-      const phoneNumber = decoded.phoneNumber as string;
-      // console.log("Decoded JWT phoneNumber:", decoded.phoneNumber);
+    const updatedPassword = newPassword
+      ? await bcrypt.hash(newPassword, 10)
+      : user.password;
 
-      if (!phoneNumber) {
-        return ctx.unauthorized(
-          "Bạn cần đăng nhập để thực hiện hành động này.",
-        );
-      }
-
-      const {
-        fullName,
-        email,
-        address,
-        provinceCity,
-        country,
-        password,
-        newPassword,
-      } = ctx.request.body;
-
-      // Lấy thông tin user từ database
-      const user = await strapi.db
-        .query("plugin::users-permissions.user")
-        .findOne({
-          where: { phoneNumber },
-        });
-
-      if (!user) {
-        return ctx.notFound("User không tồn tại");
-      }
-
-      // Nếu có `newPassword`, kiểm tra mật khẩu cũ
-      if (newPassword) {
-        if (!password) {
-          return ctx.badRequest(
-            "Cần nhập mật khẩu hiện tại để thay đổi mật khẩu",
-          );
-        }
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-          return ctx.unauthorized("Mật khẩu hiện tại không đúng");
-        }
-      }
-
-      // Nếu đổi mật khẩu thì hash mật khẩu mới
-      const updatedPassword = newPassword
-        ? await bcrypt.hash(newPassword, 10)
-        : user.password;
-      console.log("updatedPassword:", updatedPassword);
-      // Cập nhật thông tin user (KHÔNG thay đổi `password_restore`)
-      const updatedUser = await strapi.db
-        .query("plugin::users-permissions.user")
-        .update({
-          where: { phoneNumber: phoneNumber },
-          data: {
-            fullName: fullName || user.fullName,
-            email: email || user.email, // Nếu không có email mới, giữ nguyên giá trị email cũ
-            address: address || user.address,
-            provinceCity: provinceCity || user.provinceCity,
-            country: country || user.country,
-            password: updatedPassword, // Chỉ thay đổi nếu có `newPassword`
-          },
-        });
-      console.log("updatedPassword11:", updatedPassword);
-      return ctx.send({
-        message: "Cập nhật thông tin thành công",
-        user: {
-          fullName: updatedUser.fullName,
-          email: updatedUser.email,
-          address: updatedUser.address,
-          provinceCity: updatedUser.provinceCity,
-          country: updatedUser.country,
-          phoneNumber: updatedUser.phoneNumber,
+    const updatedUser = await strapi.db
+      .query("plugin::users-permissions.user")
+      .update({
+        where: { phoneNumber },
+        data: {
+          fullName: fullName || user.fullName,
+          email: email || user.email,
+          address: address || user.address,
+          provinceCity: provinceCity || user.provinceCity,
+          country: country || user.country,
+          password: updatedPassword,
+          dob: newDob || user.dob, // 👈 cập nhật ngày sinh nếu có
         },
       });
-    } catch (error) {
-      console.error("Lỗi cập nhật thông tin:", error);
-      return ctx.internalServerError(
-        `Lỗi cập nhật thông tin: ${error.message}`,
-      );
-    }
-  },
+
+    return ctx.send({
+      message: "Cập nhật thông tin thành công",
+      user: {
+        fullName: updatedUser.fullName,
+        email: updatedUser.email,
+        address: updatedUser.address,
+        provinceCity: updatedUser.provinceCity,
+        country: updatedUser.country,
+        phoneNumber: updatedUser.phoneNumber,
+        dob: updatedUser.dob,
+      },
+    });
+  } catch (error) {
+    console.error("Lỗi cập nhật thông tin:", error);
+    return ctx.internalServerError(
+      `Lỗi cập nhật thông tin: ${error.message}`,
+    );
+  }
+},
+
 
   // Lấy thông tin người dùng với role
   async getUserInfo(ctx) {
