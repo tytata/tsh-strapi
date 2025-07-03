@@ -72,6 +72,11 @@ hoctruongsinhhoc@gmail.com/P@ssw0rd
    // "start": "strapi start",
 
 
+## build docker image:
+docker build -t <myusernamehub>my-strapi-app .
+ex: docker build -t tytata/tsh-strapi .
+docker push <myusernamehub>/tsh-strapi:latest
+ex: docker push tytata/tsh-strapi:latest
 
 
    ### deploy by docker:
